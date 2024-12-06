@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+</head>
+<body>
+    <h1>112207415_Lab3_Number Guessing Game</h1>
+    <div id="result"></div>
+    <script>
+        const answer = Math.floor(Math.random() * 100) + 1;
+        let attemptsLeft = 7;
+        let minRange = 1;
+        let maxRange = 100;
+
+        function showResult(imagePath, altText) {
+            document.getElementById("result").innerHTML = 
+                `<img src="${imagePath}" alt="${altText}" style="max-width: 100%; height: auto;" />`;
+        }
+
+        while (attemptsLeft > 0) {
+            const userInput = window.prompt(
+                `請猜一個數字 (${minRange} 到 ${maxRange})，剩餘次數：${attemptsLeft}`
+            );
+
+            const guess = parseInt(userInput);
+            console.log(`User input: ${userInput}, Parsed guess: ${guess}`);
+
+            if (isNaN(guess) || guess < minRange || guess > maxRange) {
+                alert("請輸入有效的數字！");
+                continue;
+            }
+
+            attemptsLeft--;
+
+            if (guess === answer) {
+                alert("恭喜！你猜對了！");
+                showResult("correct.jpg", "Correct!");
+                break;
+            } else if (guess < answer) {
+                alert("太小了！");
+                minRange = guess + 1;
+            } else {
+                alert("太大了！");
+                maxRange = guess - 1;
+            }
+
+            console.log(`Updated Range: ${minRange} - ${maxRange}, Attempts left: ${attemptsLeft}`);
+        }
+
+        if (attemptsLeft === 0) {
+            alert(`遊戲結束！正確答案是 ${answer}`);
+            showResult("wrong.jpg", "Wrong!");
+        }
+    </script>
+</body>
+</html>
